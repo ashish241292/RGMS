@@ -2,6 +2,40 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import createStore from './store/createStore'
 import './styles/main.scss'
+import injectTapEventPlugin from 'react-tap-event-plugin';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import {fade} from 'material-ui/utils/colorManipulator';
+import {
+  cyan500,
+  darkBlack,
+  fullBlack,
+  grey300,
+  grey400,
+  grey500,
+  white } from 'material-ui/styles/colors';
+
+const customMuiTheme = getMuiTheme({
+  fontFamily: 'Roboto, sans-serif',
+  palette: {
+    textColor: darkBlack,
+    alternateTextColor: white,
+    canvasColor: white,
+    borderColor: grey300,
+    primary1Color:"rgb(66, 133, 244)",
+    disabledColor: fade(darkBlack, 0.3),
+    pickerHeaderColor: cyan500,
+    clockCircleColor: fade(darkBlack, 0.07),
+    shadowColor: fullBlack,
+  },
+  appBar: {
+    height: 40,
+  },
+});
+
+// Needed for onTouchTap
+//-----------------------------------------
+injectTapEventPlugin();
 
 // Store Initialization
 // ------------------------------------
@@ -16,7 +50,9 @@ let render = () => {
   const routes = require('./routes/index').default(store)
 
   ReactDOM.render(
-    <App store={store} routes={routes} />,
+    <MuiThemeProvider muiTheme={customMuiTheme}>
+      <App store={store} routes={routes} />
+    </MuiThemeProvider>,
     MOUNT_NODE
   )
 }
